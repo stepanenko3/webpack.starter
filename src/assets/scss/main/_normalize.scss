@@ -1,0 +1,61 @@
+$normalize-font: $baseFontSize / 14 * 10;
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  font: {
+    family: $baseFontFamily;
+    weight: normal;
+    size: 100%;
+  }
+}
+
+html {
+  margin: 0 !important;
+
+  overflow: {
+      x: hidden;
+      y: scroll;
+  }
+
+  width: 100%;
+  max-width: 100%;
+  line-height: 1;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+a {
+  outline: none !important;
+}
+
+ul {
+  margin: 0;
+}
+
+::after,
+::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@for $i from 1 through 5 {
+  h#{6 - $i},
+  .h#{6 - $i} {
+    font-size: rem(($normalize-font * 4.2) / 6 * $i);
+  }
+}

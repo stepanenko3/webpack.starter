@@ -1,0 +1,63 @@
+//
+// Utility classes
+// --------------------------------------------------
+
+//a[href^="http"]:empty::before {
+//    content: attr(href);
+//}
+a {
+    text-decoration: none;
+}
+
+// Floats
+// -------------------------
+.fl_r {
+    float: right !important;
+}
+
+.fl_l {
+    float: left !important;
+}
+
+// Toggling content
+// -------------------------
+
+// Note: Deprecated .hide in favor of .hidden or .sr-only (as appropriate) in v3.0.1
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+.visible {
+    visibility: visible;
+}
+// Hide from screenreaders and browsers
+//
+// Credit: HTML5 Boilerplate
+
+.hidden {
+    display: none !important;
+}
+
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+}
+
+img, object, embed {
+    max-width: 100%;
+    height: auto;
+}
+
+@import "utilities/align";
+@import "utilities/clearfix";
+@import "utilities/display";
+@import "utilities/float";
+@import "utilities/flex";
+@import "utilities/visibility";

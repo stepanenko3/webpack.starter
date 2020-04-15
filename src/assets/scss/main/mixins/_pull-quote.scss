@@ -1,0 +1,25 @@
+@mixin pull-quote( $quotes: "“" "”" "‘" "’", $offset: 0 0 ) {
+    position: relative;
+    quotes: $quotes;
+
+    &:before,
+    &:after {
+        position: absolute;
+        line-height: 1;
+        @content;
+    }
+
+    &:before {
+        content: open-quote;
+        top: nth($offset, 1);
+        left: nth($offset, 2);
+    }
+
+    &:after {
+        content: close-quote;
+        bottom: nth($offset, 1);
+        right: nth($offset, 2);
+        // Align quote to bottom
+        line-height: 0;
+    }
+}

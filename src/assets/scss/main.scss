@@ -1,0 +1,28 @@
+@import 'main/functions';
+@import 'main/variables';
+@import 'main/mixins';
+@import 'main/utilities';
+@import 'main/normalize';
+
+// Grid mixins
+@import 'main/grid';
+@import 'main/utilities/flex';
+
+// @import 'iconfont_MainIcons';
+// @include font-face('MainIcons', '/assets/fonts/MainIcons', 300, normal, eot woff2 woff);
+        // @include getIcon('MainIcons/logo');
+
+.header {
+    &:before {
+        color: #000;
+        transition: 0.5s color;
+    }
+
+    &:hover:before {
+        color: red;
+    }
+}
+
+.footer {
+    background: #f4f4f4;
+}
