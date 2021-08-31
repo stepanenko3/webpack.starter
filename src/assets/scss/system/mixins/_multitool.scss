@@ -1,0 +1,27 @@
+@mixin multitool($use_breakpoints: true, $use_active: false) {
+    $prefixes: ();
+
+    @if $use_active {
+        $prefixes: prepend($prefixes, 'active');
+    }
+
+    @if $use_breakpoints {
+        @each $breakpoint in map-keys($grid-breakpoints) {
+            @include media-breakpoint-up($breakpoint) {
+                $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+        
+                @content($infix, '');
+
+                @each $prefix in $prefixes {
+                    @content('#{$prefix}\\:#{$infix}', '.#{$prefix} ');
+                }
+            }
+        }
+    } @else {
+        @content('', '');
+
+        @each $prefix in $prefixes {
+            @content('#{$prefix}\\:#{$infix}', '.#{$prefix} ');
+        }
+    }
+}

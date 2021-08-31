@@ -1,0 +1,37 @@
+
+.cookie-message {
+    font-size: rem(12);
+    line-height: 1.1;
+    padding: rem(7);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: z("cookie-confirm");
+    box-shadow: var(--shadow-sm);
+    @include transition("background");
+
+    .btn {
+        width: rem(75);
+        margin-left: rem(7);
+    }
+
+    @include media-breakpoint-up("lg") {
+        right: rem(12);
+        width: rem(294);
+        flex-direction: column;
+        bottom: rem(12);
+        @include border-radius(rem(10));
+        font-size: rem(14);
+        line-height: 1.28;
+        padding: rem(12);
+
+        .btn {
+            margin: rem(7) 0 0 0;
+        }
+    }
+}

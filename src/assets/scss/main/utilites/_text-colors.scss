@@ -1,0 +1,74 @@
+:root {
+    @each $palette, $hex in $defaultPalettes {
+        @include defineColor($palette, $hex);
+    }
+
+    @each $palette, $hex in $defaultPalettes {
+        @include defineColor($palette + '-force', $hex);
+    }
+
+    @include makeColorPalette('font-force', map-deep-get($palettes, 'font'), false);
+
+    @each $palette, $hex in $palettes {
+        @include makeColorPalette($palette, $hex, false);
+    }
+
+    @each $palette, $hex in $defaultPalettes {
+        @include defineColor($palette, $hex, true);
+    }
+
+    @each $palette, $hex in $defaultPalettes {
+        @include defineColor($palette + '-force', $hex, true);
+    }
+
+    @include makeColorPalette('font-force', map-deep-get($palettes, 'font'), false, true);
+
+    @each $palette, $hex in $palettes {
+        @include makeColorPalette($palette, $hex, false, true);
+    }
+}
+
+* {
+    --text-opacity: 1;
+}
+
+.text-transparent {
+    color: transparent;
+}
+
+.text-current {
+    color: currentColor;
+}
+
+@each $palette in map-keys($defaultPalettes) {
+    .text-#{$palette} {
+        color: rgba(var(--rgb-#{$palette}), var(--text-opacity));
+    }
+}
+
+@each $palette, $hex in map-keys($palettes) {
+    @for $i from 1 through 10 {
+        $shade: ($i - 1) * 100;
+
+        @if $i==1 {
+            $shade: 50;
+        }
+
+        @if $shade == 500 {
+            .text-#{$palette},
+            .text-#{$palette}-#{$shade} {
+                color: rgba(var(--rgb-#{$palette}-#{$shade}), var(--text-opacity));
+            }
+        }
+
+        .text-#{$palette}-#{$shade} {
+            color: rgba(var(--rgb-#{$palette}-#{$shade}), var(--text-opacity));
+        }
+    }
+}
+
+@each $key, $opacity in $textOpacity {
+    .text-opacity-#{$key} {
+        --text-opacity: #{$opacity};
+    }
+}

@@ -1,0 +1,113 @@
+
+.faq-list {
+    background: var(--color-elements-50);
+    @include border-radius(var(--rounded-2xl));
+    padding: rem(6) rem(15);
+    @include transition("background");
+
+    @include media-breakpoint-up("lg") {
+        padding: rem(12) rem(24);
+    }
+
+    &__item {
+        border-bottom: rem(1) solid var(--color-elements-100);
+        @include transition("border-color");
+
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+
+    &__toggle {
+        display: flex;
+        align-items: center;
+        padding: rem(9) 0;
+        font-size: rem(13);
+        line-height: 1.28;
+        font-weight: 400;
+        cursor: pointer;
+
+        @include media-breakpoint-up("lg") {
+            font-size: rem(14);
+            padding: rem(13) 0;
+        }
+
+        span {
+            width: rem(21);
+            margin-right: rem(9);
+            font-size: theme("font.size.lg");
+            color: var(--color-primary-500);
+        }
+
+        &:after {
+            @include getIcon("MainIcons/angle-down");
+            color: var(--color-font-300);
+            margin-left: auto;
+            padding-left: rem(9);
+            font-size: rem(11);
+            @include transition("color");
+
+            @include media-breakpoint-up("lg") {
+                padding-left: rem(12);
+                font-size: rem(13);
+            }
+        }
+    }
+
+    &__i {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-grow: 1;
+
+        > * {
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 0;
+        }
+    }
+
+    &__content {
+        display: none;
+        color: var(--color-font-300);
+        font-size: rem(13);
+        line-height: 1.4;
+        padding: 0 0 rem(15) rem(30);
+        @include transition("color");
+
+        @include media-breakpoint-up("lg") {
+            font-size: rem(14);
+            padding: 0 0 rem(20) rem(33);
+        }
+
+        a {
+            color: var(--color-font-300);
+            text-decoration: underline;
+            @include transition("color");
+
+            &:hover {
+                color: var(--color-primary-500);
+            }
+        }
+
+        &--full {
+            padding-left: 0;
+        }
+    }
+
+    &__item.active & {
+        border-bottom: 0;
+
+        &__content {
+            display: block;
+        }
+
+        &__toggle:after {
+            @include getIcon("MainIcons/angle-up");
+        }
+    }
+
+    &__item:not(:last-child) &__content--full {
+        padding-bottom: 0;
+    }
+}

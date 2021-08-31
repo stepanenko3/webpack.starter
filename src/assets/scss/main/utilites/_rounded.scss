@@ -1,0 +1,39 @@
+@if $rounded {
+    :root {
+        @each $name, $val in $roundes {
+            --rounded-#{$name}: #{$val};
+        }
+    }
+
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        @include media-breakpoint-up($breakpoint) {
+            $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+            @each $name in map-keys($roundes) {
+                .#{$infix}rounded-#{$name} {
+                    border-radius: var(--rounded-)#{$name};
+                }
+
+                .#{$infix}rounded-t-#{$name} {
+                    border-top-left-radius: var(--rounded-#{$name});
+                    border-top-right-radius: var(--rounded-#{$name});
+                }
+
+                .#{$infix}rounded-r-#{$name} {
+                    border-top-right-radius: var(--rounded-#{$name});
+                    border-bottom-right-radius: var(--rounded-#{$name});
+                }
+
+                .#{$infix}rounded-b-#{$name} {
+                    border-bottom-left-radius: var(--rounded-#{$name});
+                    border-bottom-right-radius: var(--rounded-#{$name});
+                }
+
+                .#{$infix}rounded-l-#{$name} {
+                    border-top-left-radius: var(--rounded-#{$name});
+                    border-bottom-left-radius: var(--rounded-#{$name});
+                }
+            }
+        }
+    }
+}

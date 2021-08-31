@@ -1,0 +1,31 @@
+@include font-face('Flow', '../fonts/flow-circular.woff?', 400, normal, ('woff'));
+
+// $fontWeights: (
+// 	300: "Light",
+// 	normal: "Regular",
+// 	500: "Medium",
+// 	600: "SemiBold",
+// 	// 800: "ExtraBold",
+// 	900: "Black",
+// );
+// $fontName: 'Montserrat';
+// $fontPath: "/assets/fonts/Montserrat";
+// @each $weight, $name in $fontWeights {
+// 	@font-face {
+// 		font-family: $fontName;
+// 		src: url('#{$fontPath}/#{$fontName}-#{$name}.eot');
+// 		src: local('#{$fontName} #{$name}'), local('#{$fontName}-#{$name}'),
+// 			url('#{$fontPath}/#{$fontName}-#{$name}.eot?#iefix') format('embedded-opentype'),
+// 			url('#{$fontPath}/#{$fontName}-#{$name}.woff') format('woff'),
+// 			url('#{$fontPath}/#{$fontName}-#{$name}.ttf') format('truetype');
+// 		font-weight: $weight;
+// 		font-display: swap;
+// 		font-style: normal;
+// 	}
+// }
+
+@each $name, $values in map-deep-get($font, 'family') {
+    .font-#{$name} {
+        font-family: implode($values, ', ');
+    }
+}

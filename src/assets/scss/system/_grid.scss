@@ -1,0 +1,195 @@
+@use 'sass:math';
+
+@if $enable-grid-classes {
+    // Container widths
+    //
+    // Set the container width, and override it for fixed navbars in media queries.    
+    .container {
+        @include make-container();
+        @include make-container-max-widths();
+    }
+
+    // Fluid container
+    //
+    // Utilizes the mixin meant for fixed width containers, but with 100% width for
+    // fluid, full width layouts.
+    .container-fluid {
+        @include make-container();
+    }
+
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        @include media-breakpoint-up($breakpoint) {
+            $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+            //
+            // GRID COLUMNS
+            //
+            @for $i from 1 through $grid-columns {
+                .#{$infix}grid-cols-#{$i} {
+                    grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+                }
+            }
+
+            .#{$infix}grid-cols-none {
+                grid-template-columns: none;
+            }
+
+            @each $key,
+            $value in $grid-auto {
+                .#{$infix}auto-cols-#{$key} {
+                    grid-auto-columns: #{$value};
+                }
+            }
+
+            .#{$infix}col-auto {
+                grid-column: auto;
+            }
+
+            @for $i from 1 through $grid-columns {
+                .#{$infix}col-span-#{$i} {
+                    grid-column: span #{$i} / span #{$i};
+                }
+            }
+
+            .#{$infix}-col-full {
+                grid-column: 1 / -1;
+            }
+
+            @for $i from 1 through ($grid-columns + 1) {
+                .#{$infix}col-start-#{$i} {
+                    grid-column-start: #{$i};
+                }
+            }
+
+            .#{$infix}col-start-auto {
+                grid-column-start: auto;
+            }
+
+            @for $i from 1 through ($grid-columns + 1) {
+                .#{$infix}col-end-#{$i} {
+                    grid-column-end: #{$i};
+                }
+            }
+
+            .#{$infix}col-end-auto {
+                grid-column-end: auto;
+            }
+
+            //
+            // GRID ROWS
+            //
+            @for $i from 1 through (math.div($grid-columns, 2)) {
+                .#{infix}grid-rows-#{$i} {
+                    grid-template-rows: repeat(#{$i}, minmax(0, 1fr));
+                }
+            }
+
+            .#{$infix}grid-rows-none {
+                grid-template-rows: none;
+            }
+
+            @each $key,
+            $value in $grid-auto {
+                .#{$infix}auto-rows-#{$key} {
+                    grid-auto-rows: #{$value};
+                }
+            }
+
+            .#{$infix}row-auto {
+                grid-row: auto;
+            }
+
+            @for $i from 1 through (math.div($grid-columns, 2)) {
+                .#{$infix}row-span-#{$i} {
+                    grid-row: span #{$i} / span #{$i};
+                }
+            }
+
+            .#{$infix}-row-full {
+                grid-row: 1 / -1;
+            }
+
+            @for $i from 1 through (math.div($grid-columns, 2) + 1) {
+                .#{$infix}row-start-#{$i} {
+                    grid-row-start: #{$i};
+                }
+            }
+
+            .#{$infix}row-start-auto {
+                grid-row-start: auto;
+            }
+
+            @for $i from 1 through (math.div($grid-columns, 2) + 1) {
+                .#{$infix}row-end-#{$i} {
+                    grid-row-end: #{$i};
+                }
+            }
+
+            .#{$infix}row-end-auto {
+                grid-row-end: auto;
+            }
+
+
+            //
+            // GRID GAP
+            //
+            @each $spaceKey, $space in $spacing {
+                .#{$infix}gap-#{str-replace($spaceKey, ',', '\\.')} {
+                    gap: #{$space};
+                }
+            }
+
+            @each $spaceKey, $space in $spacing {
+                .#{$infix}gap-x-#{str-replace($spaceKey, ',', '\\.')} {
+                    column-gap: #{$space};
+                }
+            }
+
+            @each $spaceKey, $space in $spacing {
+                .#{$infix}gap-y-#{str-replace($spaceKey, ',', '\\.')} {
+                    row-gap: #{$space};
+                }
+            }
+
+            //
+            // GRID AUTO FLOW
+            //
+            .#{$infix}grid-flow-row {
+                grid-auto-flow: row;
+            }
+
+            .#{$infix}grid-flow-col {
+                grid-auto-flow: column;
+            }
+
+            .#{$infix}grid-flow-row-dense {
+                grid-auto-flow: row dense;
+            }
+
+            .#{$infix}grid-flow-col-dense {
+                grid-auto-flow: column dense;
+            }
+
+            //
+            // GRID ORDER
+            //
+            @for $order from 1 through $grid-columns {
+                .#{$infix}order-#{$order} {
+                    order: #{$order};
+                }
+            }
+
+            .#{$infix}order-first {
+                order: -9999;
+            }
+            
+            .#{$infix}order-last {
+                order: 9999;
+            }
+            
+            .#{$infix}order-none {
+                order: 0;
+            }
+        }
+    }
+}

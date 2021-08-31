@@ -1,0 +1,35 @@
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .#{$infix}striped {
+            >*:not(:nth-child(2n+1)) {
+                background: transparent;
+            }
+
+            >*:nth-child(2n+1) {
+                background: var(--color-elements-50);
+                @include border-radius(var(--rounded-xl));
+            }
+        }
+
+        .#{$infix}striped-cols-2 {
+            >*:not(:nth-child(4n+1), :nth-child(4n+2)) {
+                background: transparent;
+            }
+
+            >*:nth-child(4n+1) {
+                background: var(--color-elements-50);
+                @include border-radius(var(--rounded-xl) 0 0 var(--rounded-xl));
+            }
+
+            >*:nth-child(4n+2) {
+                @include border-radius(0 var(--rounded-xl) var(--rounded-xl) 0);
+            }
+
+            >*:nth-child(4n+1):last-child {
+                @include border-radius(var(--rounded-xl));
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+
+.close-btn {
+    height: rem(30);
+    width: rem(30);
+    min-width: rem(30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.75;
+    cursor: pointer;
+    @include transition("opacity");
+
+    &:after {
+        @include getIcon("MainIcons/close");
+        font-size: rem(9);
+    }
+
+    &:hover {
+        opacity: 1;
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+}

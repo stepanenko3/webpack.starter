@@ -1,0 +1,169 @@
+.space-y-xs {
+    height: theme('spacing.3');
+    display: block;
+    width: 100%;
+
+    @include media-breakpoint-up('lg') {
+        height: theme('spacing.4');
+    }
+}
+
+.space-y-sm {
+    height: theme('spacing.5');
+    display: block;
+    width: 100%;
+
+    @include media-breakpoint-up('lg') {
+        height: theme('spacing.6');
+    }
+}
+
+.space-y-md {
+    height: theme('spacing.10');
+    display: block;
+    width: 100%;
+
+    @include media-breakpoint-up('lg') {
+        height: theme('spacing.12');
+    }
+}
+
+@mixin spacing($prop, $spacing) {
+    $_prop: str-slice($prop, 1, 1);
+    $_spacing: ();
+    @each $name, $value in $spacing {
+        $_spacing: map-set($_spacing, str-replace($name, ',', '\\.'), $value);
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}-#{$name} {
+            #{$prop}: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}-auto {
+        #{$prop}: auto !important;
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}x-#{$name} {
+            #{$prop}-right: #{$value} !important;
+            #{$prop}-left: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}x-auto {
+        #{$prop}-right: auto !important;
+        #{$prop}-left: auto !important;
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}y-#{$name} {
+            #{$prop}-top: #{$value} !important;
+            #{$prop}-bottom: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}y-auto {
+        #{$prop}-top: auto !important;
+        #{$prop}-bottom: auto !important;
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}t-#{$name} {
+            #{$prop}-top: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}t-auto {
+        #{$prop}-top: auto !important;
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}r-#{$name} {
+            #{$prop}-right: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}r-auto {
+        #{$prop}-right: auto !important;
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}b-#{$name} {
+            #{$prop}-bottom: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}b-auto {
+        #{$prop}-bottom: auto !important;
+    }
+
+    @each $name, $value in $_spacing {
+        .#{$_prop}l-#{$name} {
+            #{$prop}-left: #{$value} !important;
+        }
+    }
+
+    .#{$_prop}l-auto {
+        #{$prop}-left: auto !important;
+    }
+}
+
+@include spacing('margin', $spacing);
+@include spacing('padding', $spacing);
+
+// @each $breakpoint in map-keys($grid-breakpoints) {
+//     @include media-breakpoint-up($breakpoint) {
+//         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+//         @each $className, $property in (
+//             m: 'margin',
+//             p: 'padding',
+//         ) {
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}: #{$space};
+//                 }
+//             }
+    
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}x-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}-right: #{$space};
+//                     #{$property}-left: #{$space};
+//                 }
+//             }
+    
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}y-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}-top: #{$space};
+//                     #{$property}-bottom: #{$space};
+//                 }
+//             }
+    
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}t-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}-top: #{$space};
+//                 }
+//             }
+    
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}b-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}-bottom: #{$space};
+//                 }
+//             }
+    
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}l-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}-left: #{$space};
+//                 }
+//             }
+    
+//             @each $spaceKey, $space in $spacing {
+//                 .#{$infix}#{$className}r-#{str-replace($spaceKey, ',', '\\.')} {
+//                     #{$property}-right: #{$space};
+//                 }
+//             }
+//         }
+//     }
+// }

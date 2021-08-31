@@ -1,0 +1,35 @@
+/*! purgecss start ignore */
+@include multitool(true, true) using($infix, $prefix) {
+    //
+    // Utilities for common `display` values
+    //
+    @each $displayKey in $display {
+        #{$prefix}.#{$infix}#{$displayKey} {
+            display: #{$displayKey} !important;
+        }
+    }
+
+    #{$prefix}.#{$infix}hidden {
+        display: none !important;
+    }
+
+    //
+    // Utilities for toggling `display` in print
+    //
+    @each $displayKey in $display {
+        #{$prefix}.#{$infix}print-#{$displayKey} {
+            display: none !important;
+
+            @media print {
+                display: #{$displayKey} !important;
+            }
+        }
+    }
+
+    #{$prefix}.#{$infix}print-hidden {
+        @media print {
+            display: none !important;
+        }
+    }
+}
+/*! purgecss end ignore */

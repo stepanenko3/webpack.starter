@@ -1,0 +1,70 @@
+* {
+    --ring-shadow-fallback: 0 0 transparent;
+    --ring-inset: '';
+    --ring-offset-width: 0px;
+    --ring-offset-color: var(--color-bg);
+    --ring-color: rgba(var(--rgb-primary-50), var(--ring-opacity));
+    --ring-width: 3px;
+    --ring-opacity: 1;
+}
+
+.ring {
+    --ring-offset-shadow: 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+    --ring-shadow: 0 0 0 calc(var(--ring-width) + var(--ring-offset-width)) var(--ring-color);
+    box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--ring-shadow-fallback, 0 0 #0000);
+}
+
+@each $name, $size in $rings {
+    .ring-#{$name} {
+        --ring-width: #{$size};
+    }
+
+    .ring-offset-#{$name} {
+        --ring-offset-width: #{$size};
+    }
+}
+
+@each $name, $val in $ringOpacity {
+    .ring-opacity-#{$name} {
+        --ring-opacity: #{$val};
+    }
+}
+
+.ring-inset {
+    --ring-inset: inset;
+}
+
+.ring-transparent {
+    --ring-color: transparent;
+}
+
+.ring-current {
+    --ring-color: currentColor;
+}
+
+@each $palette in map-keys($defaultPalettes) {
+    .ring-#{$palette} {
+        --ring-color: rgba(var(--rgb-#{$palette}), var(--ring-opacity));
+    }
+}
+
+@each $palette,
+$hex in map-keys($palettes) {
+    @for $i from 1 through 10 {
+        $shade: ($i - 1) * 100;
+
+        @if $i==1 {
+            $shade: 50;
+        }
+
+        @if $shade==500 {
+            .ring-#{$palette} {
+                --ring-color: rgba(var(--rgb-#{$palette}-#{$shade}), var(--ring-opacity));
+            }
+        }
+
+        .ring-#{$palette}-#{$shade} {
+            --ring-color: rgba(var(--rgb-#{$palette}-#{$shade}), var(--ring-opacity));
+        }
+    }
+}

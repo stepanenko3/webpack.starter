@@ -1,0 +1,50 @@
+
+.share {
+    &-block {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin: 0 rem(-9) rem(15);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &__label {
+            margin: 0 0 rem(12) rem(9);
+            font-size: rem(14);
+            width: 100%;
+            color: var(--color-font-300);
+            @include transition("color");
+        }
+    }
+
+    &-button {
+        padding: 0 rem(9);
+        color: var(--color-font-500);
+        font-size: rem(25);
+        cursor: pointer;
+        @include transition("color", "opacity");
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        &.facebook {
+            color: #3b5998;
+        }
+
+        &.pinterest {
+            color: #e60023;
+        }
+
+        &.telegram {
+            color: #0088cc;
+        }
+    }
+
+    &-block--white &-button {
+        color: var(--color-white-force);
+    }
+}

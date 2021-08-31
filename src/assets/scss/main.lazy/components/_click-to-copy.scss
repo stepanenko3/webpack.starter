@@ -1,0 +1,29 @@
+[click-to-copy],
+.clickToCopy {
+    position: relative;
+    cursor: pointer;
+
+    &:after {
+        @include getIcon("MainIcons/duplicate");
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 100%;
+        margin: auto 0;
+        height: rem(27);
+        width: rem(27);
+        font-size: var(--text-base);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        font-weight: 600;
+        color: var(--color-font-200);
+        @include border-radius(var(--rounded-lg));
+        @include long-transition("color");
+    }
+
+    &:hover:after {
+        color: var(--color-primary-500);
+    }
+}

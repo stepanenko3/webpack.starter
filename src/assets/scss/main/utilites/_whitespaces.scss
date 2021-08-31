@@ -1,0 +1,38 @@
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .#{$infix}whitespace-normal {
+            white-space: normal;
+        }
+
+        .#{$infix}whitespace-nowrap {
+            white-space: nowrap;
+        }
+
+        .#{$infix}whitespace-pre {
+            white-space: pre;
+        }
+
+        .#{$infix}whitespace-pre-line {
+            white-space: pre-line;
+        }
+
+        .#{$infix}whitespace-pre-wrap {
+            white-space: pre-wrap;
+        }
+
+        .#{$infix}break-normal {
+            overflow-wrap: normal;
+            word-break: normal;
+        }
+
+        .#{$infix}break-words {
+            overflow-wrap: break-word;
+        }
+
+        .#{$infix}break-all {
+            word-break: break-all;
+        }
+    }
+}

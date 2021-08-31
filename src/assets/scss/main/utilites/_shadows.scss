@@ -1,0 +1,22 @@
+* {
+    --shadow: 0 0 #0000;
+}
+
+:root {
+    @each $key, $shadow in $boxShadow {
+        --shadow#{get-key-name($key)}: #{$shadow};
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @each $key, $shadow in $boxShadow {
+            .#{$infix}shadow#{get-key-name($key)} {
+                --shadow: #{$shadow};
+                box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--shadow);
+            }
+        }
+    }
+}

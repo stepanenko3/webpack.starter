@@ -1,0 +1,26 @@
+.dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    @include border-radius(var(--rounded-xl));
+    background: var(--color-bg);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    padding: rem(8);
+    min-width: rem(114);
+    z-index: z(dropdown);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, #{theme('spacing.3')}, 0);
+}
+
+.active > .dropdown,
+.open > .dropdown,
+:hover > .dropdown,
+.dropdown:hover {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate3d(0, 0, 0);
+}

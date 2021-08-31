@@ -1,0 +1,19 @@
+@mixin transition($args...) {
+    $properties: ();
+
+    @each $property in $args {
+        $properties: append($properties, $property + ' var(--duration)');
+    }
+
+    transition: implode($properties, ', ');
+}
+
+@mixin long-transition($args...) {
+    $properties: ();
+
+    @each $property in $args {
+        $properties: append($properties, $property + ' var(--long-duration)');
+    }
+
+    transition: implode($properties, ', ');
+}

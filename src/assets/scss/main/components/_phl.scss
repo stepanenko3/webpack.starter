@@ -1,0 +1,50 @@
+@use 'sass:math';
+
+$ph-bg: var(--color-bg) !default;
+$ph-white-bg: var(--color-elements-50) !default;
+$ph-spacer: rem(15) !default;
+$ph-size: rem(20) !default;
+
+.ph {
+    &-loader {
+        height: $ph-size;
+        min-height: $ph-size;
+        margin-bottom: $ph-spacer;
+
+        @if $rounded {
+            border-radius: var(--rounded-lg);
+        } @else {
+            border-radius: '';
+        }
+
+        width: 100%;
+        background: $ph-bg;
+        animation: theme('animation.pulseFast');
+
+        &--white {
+            background: $ph-white-bg;
+        }
+
+        &--sm {
+            height: math.div($ph-size, 2);
+            min-height: math.div($ph-size, 2);
+            margin-bottom: math.div($ph-spacer, 2);
+        }
+
+        &:last-child:first-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &-row {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    @each $col in (2, 4, 6, 8, 10, 12) {
+        &-col-#{$col} {
+            flex-basis: percentage(math.div($col, 12));
+        }
+    }
+}

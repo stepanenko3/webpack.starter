@@ -1,0 +1,250 @@
+/*! purgecss start ignore */
+
+$__iconfont__data: map-merge(if(global_variable_exists('__iconfont__data'), $__iconfont__data, ()), (
+    "MainIcons": (
+    	"accessories": "\ea01",
+		"accuracy": "\ea02",
+		"ads-o": "\ea03",
+		"ads": "\ea04",
+		"alert": "\ea05",
+		"align-center": "\ea06",
+		"align-left": "\ea07",
+		"align-right": "\ea08",
+		"android": "\ea09",
+		"angle-down": "\ea0a",
+		"angle-left": "\ea0b",
+		"angle-right": "\ea0c",
+		"angle-top": "\ea0d",
+		"angle-up": "\ea0e",
+		"apple": "\ea0f",
+		"auto": "\ea10",
+		"bell": "\ea11",
+		"birthday": "\ea12",
+		"box": "\ea13",
+		"bug": "\ea14",
+		"calendar": "\ea15",
+		"camera": "\ea16",
+		"carousel": "\ea17",
+		"cart-success": "\ea18",
+		"cart": "\ea19",
+		"chain-link": "\ea1a",
+		"check": "\ea1b",
+		"chrome": "\ea1c",
+		"clock-o": "\ea1d",
+		"clock": "\ea1e",
+		"close": "\ea1f",
+		"coals": "\ea20",
+		"comment": "\ea21",
+		"compare-o": "\ea22",
+		"compare": "\ea23",
+		"credit-card": "\ea24",
+		"crown": "\ea25",
+		"deal": "\ea26",
+		"degrees-360": "\ea27",
+		"dislike": "\ea28",
+		"duplicate": "\ea29",
+		"earth": "\ea2a",
+		"edge": "\ea2b",
+		"edit": "\ea2c",
+		"eye": "\ea2d",
+		"facebook": "\ea2e",
+		"feedback": "\ea2f",
+		"filter": "\ea30",
+		"fire-o": "\ea31",
+		"fire": "\ea32",
+		"firefox": "\ea33",
+		"fondy": "\ea34",
+		"gift-box": "\ea35",
+		"google": "\ea36",
+		"heart-o": "\ea37",
+		"heart": "\ea38",
+		"hierarchical-structure": "\ea39",
+		"hookah": "\ea3a",
+		"hookah2": "\ea3b",
+		"image": "\ea3c",
+		"info": "\ea3d",
+		"instagram": "\ea3e",
+		"internet-explorer": "\ea3f",
+		"invoice": "\ea40",
+		"law": "\ea41",
+		"like-o": "\ea42",
+		"like": "\ea43",
+		"link-o": "\ea44",
+		"linux": "\ea45",
+		"list-bullet": "\ea46",
+		"list-ordered": "\ea47",
+		"list": "\ea48",
+		"logo-full": "\ea49",
+		"logo": "\ea4a",
+		"logout": "\ea4b",
+		"mail-o": "\ea4c",
+		"mail": "\ea4d",
+		"map-marker-o": "\ea4e",
+		"map-marker": "\ea4f",
+		"map": "\ea50",
+		"mastercard": "\ea51",
+		"menu-dots": "\ea52",
+		"menu": "\ea53",
+		"minus": "\ea54",
+		"moon": "\ea55",
+		"more-dots": "\ea56",
+		"opera": "\ea57",
+		"password": "\ea58",
+		"phone-o": "\ea59",
+		"phone": "\ea5a",
+		"photo-camera": "\ea5b",
+		"photo": "\ea5c",
+		"pin": "\ea5d",
+		"pinterest": "\ea5e",
+		"plus": "\ea5f",
+		"prostir": "\ea60",
+		"qr-code": "\ea61",
+		"question-comment": "\ea62",
+		"question": "\ea63",
+		"quote": "\ea64",
+		"reply": "\ea65",
+		"safari": "\ea66",
+		"search": "\ea67",
+		"set": "\ea68",
+		"share": "\ea69",
+		"shield": "\ea6a",
+		"similar": "\ea6b",
+		"smoke": "\ea6c",
+		"social": "\ea6d",
+		"star-o": "\ea6e",
+		"star": "\ea6f",
+		"store-o": "\ea70",
+		"store": "\ea71",
+		"subway": "\ea72",
+		"sun": "\ea73",
+		"tag": "\ea74",
+		"telegram": "\ea75",
+		"tobacco": "\ea76",
+		"touch": "\ea77",
+		"translation": "\ea78",
+		"trash": "\ea79",
+		"truck": "\ea7a",
+		"twitter": "\ea7b",
+		"ubuntu": "\ea7c",
+		"upload": "\ea7d",
+		"user": "\ea7e",
+		"verify": "\ea7f",
+		"video": "\ea80",
+		"visa": "\ea81",
+		"wallet": "\ea82",
+		"website": "\ea83",
+		"windows": "\ea84"
+	)
+));
+
+
+$font-ver: unique_id();
+$create-font-face: true !default; // should the @font-face tag get created?
+// should there be a custom class for each icon? will be .filename
+$create-icon-classes: true !default;
+// what is the common class name that icons share? in this case icons need to have .icon.filename in their classes
+// this requires you to have 2 classes on each icon html element, but reduced redeclaration of the font family
+// for each icon
+$icon-common-class: 'icon' !default;
+// if you whish to prefix your filenames, here you can do so.
+// if this string stays empty, your classes will use the filename, for example
+// an icon called star.svg will result in a class called .star
+// if you use the prefix to be 'icon-' it would result in .icon-star
+$icon-prefix: '' !default;
+
+// helper function to get the correct font group
+@function iconfont-group($group: null) {
+    @if (null==$group) {
+        $group: nth(map-keys($__iconfont__data), 1);
+    }
+
+    @if (false==map-has-key($__iconfont__data, $group)) {
+        @warn 'Undefined Iconfont Family!';
+        @return ();
+    }
+
+    @return map-get($__iconfont__data, $group);
+}
+
+// helper function to get the correct icon of a group
+@function iconfont-item($name) {
+    $slash: str-index($name, '/');
+    $group: null;
+
+    @if ($slash) {
+        $group: str-slice($name, 0, $slash - 1);
+        $name: str-slice($name, $slash + 1);
+    }
+
+    @else {
+        $group: nth(map-keys($__iconfont__data), 1);
+    }
+
+    $group: iconfont-group($group);
+
+    @if (false==map-has-key($group, $name)) {
+        @warn 'Undefined Iconfont Glyph!';
+        @return '';
+    }
+
+    @return map-get($group, $name);
+}
+
+// complete mixing to include the icon
+// usage:
+// .my_icon{ @include iconfont('star') }
+@mixin iconfont($icon) {
+    $slash: str-index($icon, '/');
+    $group: null;
+
+    @if ($slash) {
+        $group: str-slice($icon, 0, $slash - 1);
+    }
+
+    @else {
+        $group: nth(map-keys($__iconfont__data), 1);
+    }
+
+    &:before {
+        font-family: $group;
+        font-style: normal;
+        font-weight: 400;
+        content: iconfont-item($icon);
+    }
+}
+
+// creates the font face tag if the variable is set to true (default)
+@if $create-font-face==true {
+    @font-face {
+        font-family: "MainIcons";
+        // font-display: swap;
+        src: url('../fonts/MainIcons.eot?v=#{$font-ver}');
+        /* IE9 Compat Modes */
+        src: url('../fonts/MainIcons.eot?v=#{$font-ver}#iefix') format('embedded-opentype'),
+            /* IE6-IE8 */
+            url('../fonts/MainIcons.woff?v=#{$font-ver}') format('woff'),
+            /* Pretty Modern Browsers */
+            url('../fonts/MainIcons.ttf?v=#{$font-ver}') format('truetype'),
+            /* Safari, Android, iOS */
+            url('../fonts/MainIcons.svg?v=#{$font-ver}') format('svg');
+        /* Legacy iOS */
+    }
+}
+
+// creates icon classes for each individual loaded svg (default)
+@if $create-icon-classes==true {
+    .#{$icon-common-class} {
+        font-style: normal;
+        font-weight: 400;
+
+        @each $icon,
+        $content in map-get($__iconfont__data, "MainIcons") {
+            &.#{$icon-prefix}#{$icon}:before {
+                font-family: "MainIcons";
+                content: iconfont-item("MainIcons/#{$icon}");
+            }
+        }
+    }
+}
+
+/*! purgecss end ignore */

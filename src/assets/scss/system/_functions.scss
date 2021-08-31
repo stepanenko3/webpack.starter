@@ -1,0 +1,322 @@
+// Bootstrap functions
+//
+// Utility mixins and functions for evalutating source code across our variables, maps, and mixins.
+
+// Ascending
+// Used to evaluate Sass maps like our grid breakpoints.
+@mixin _assert-ascending($map, $map-name) {
+    $prev-key: null;
+    $prev-num: null;
+
+    @each $key,
+    $num in $map {
+        @if $prev-num==null {
+            // Do nothing
+        }
+
+        @else if not comparable($prev-num, $num) {
+            @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+        }
+
+        @else if $prev-num>=$num {
+            @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}' !";
+        }
+
+        $prev-key: $key;
+        $prev-num: $num;
+    }
+}
+
+// Starts at zero
+// Another grid mixin that ensures the min-width of the lowest breakpoint starts at 0.
+@mixin _assert-starts-at-zero($map) {
+    $values: map-values($map);
+    $first-value: nth($values, 1);
+
+    @if $first-value !=0 {
+        @warn "First breakpoint in `$grid-breakpoints` must start at 0, but starts at #{$first-value}.";
+    }
+}
+
+@function get-space-key($value) {
+    @return str-replace($value, ',', '\\.');
+}
+
+@function get-unit($value) {
+    @return str-slice($value * 0 + "", 2, -1);
+}
+
+@function var-get($map, $key, $fallback: null) {
+    @if map-has-key($map, $key) {
+        @return map-get($map, $key);
+    }
+
+    @else {
+        @return $fallback;
+    }
+}
+
+// Replace `$search` with `$replace` in `$string`
+// Used on our SVG icon backgrounds for custom forms.
+//
+// @author Hugo Giraudel
+// @param {String} $string - Initial string
+// @param {String} $search - Substring to replace
+// @param {String} $replace ('') - New value
+// @return {String} - Updated string
+@function str-replace($string, $search, $replace: "") {
+    $string: ''+ $string;
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1)+$replace+str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}
+
+// Color contrast
+@mixin color-yiq($color) {
+    $r: red($color);
+    $g: green($color);
+    $b: blue($color);
+
+    $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+    @if ($yiq >=150) {
+        color: var(--color-font-500);
+    }
+
+    @else {
+        color: var(--color-white);
+    }
+}
+
+@function tint($color, $percentage) {
+    @return mix(#FFF, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+    @return mix(#000, $color, $percentage);
+}
+
+@mixin defineColor($key, $color, $RGB: false) {
+    @if $RGB {
+        --rgb-#{$key}: #{red($color) + ", " + green($color) + ", " + blue($color)};
+    }
+
+    @else {
+        --color-#{$key}: #{$color};
+    }
+}
+
+@mixin makeColorPalette($key, $color, $reverse: false, $RGB: false, $tintStep: -18.5, $shadeStep: 20) {
+    @for $i from 1 through 10 {
+        $shade: ($i - 1) * 100;
+
+        @if $i==1 {
+            $shade: 50;
+        }
+
+        $tintShadeColor: $color;
+
+        @if ($reverse==false and $i < 6) or ($reverse==true and $i > 6) {
+            $tintShadeColor: tint($color, if($reverse, ($i - 6) * 20, ($i - 6) * $tintStep));
+        }
+
+        @else if ($reverse==false and $i > 6) or ($reverse==true and $i < 6) {
+            $tintShadeColor: shade($color, if($reverse, ($i - 5) * -23, ($i - 6) * $shadeStep));
+        }
+
+        @include defineColor($key + '-'+ $shade, $tintShadeColor, $RGB);
+    }
+}
+
+// Map deep get
+// Example: $m-breakpoint: map-deep-get($o-grid-default-config, "layouts", "M");
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+
+    @return $map;
+}
+
+// Deep set function to set a value in nested maps
+// Example: $o-grid-default-config: map-deep-set($o-grid-default-config, "layouts" "M", 650px);
+@function map-deep-set($map, $keys, $value) {
+    $maps: ($map, );
+    $result: null;
+
+    // If the last key is a map already
+    // Warn the user we will be overriding it with $value
+    @if type-of(nth($keys, -1))=="map" {
+        @warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+    }
+
+    // If $keys is a single key
+    // Just merge and return
+    @if length($keys)==1 {
+        @return map-merge($map, ($keys: $value));
+    }
+
+    // Loop from the first to the second to last key from $keys
+    // Store the associated map to this key in the $maps list
+    // If the key doesn't exist, throw an error
+    @for $i from 1 through length($keys) - 1 {
+        $current-key: nth($keys, $i);
+        $current-map: nth($maps, -1);
+        $current-get: map-get($current-map, $current-key);
+
+        @if $current-get==null {
+            @error "Key `#{$key}` doesn't exist at current level in map.";
+        }
+
+        $maps: append($maps, $current-get);
+    }
+
+    // Loop from the last map to the first one
+    // Merge it with the previous one
+    @for $i from length($maps) through 1 {
+        $current-map: nth($maps, $i);
+        $current-key: nth($keys, $i);
+        $current-val: if($i==length($maps), $value, $result);
+        $result: map-merge($current-map, ($current-key: $current-val));
+    }
+
+    // Return result
+    @return $result;
+}
+
+@function get-key-name($key) {
+    @if $key=='DEFAULT' {
+        @return '';
+    }
+
+    @return '-'+$key;
+}
+
+// @function implode() -- join list elements to form a single string
+//  {string} $pieces: the list of strings to implode
+//  {string} $glue: the "glue" between elements in the result string
+//  @return {string} the result string
+@function implode($pieces, $glue: "") {
+    $result: null;
+
+    @for $i from 1 through length($pieces) {
+        $piece: nth($pieces, $i);
+
+        @if type-of($piece)==list {
+            $result: unquote("#{$result}#{$glue}#{implode($piece, $glue)}");
+        }
+
+        @else {
+            $result: unquote("#{$result}#{$glue}#{$piece}");
+        }
+    }
+
+    @if $result !=null {
+        $result: str-slice($result, str-length($glue) + 1, -1);
+    }
+
+    @return $result;
+}
+
+@function str-split($string, $separator) {
+    // empty array/list
+    $split-arr: ();
+    // first index of separator in string
+    $index: str-index($string, $separator);
+
+    // loop through string
+    @while $index !=null {
+        // get the substring from the first character to the separator
+        $item: str-slice($string, 1, $index - 1);
+        // push item to array
+        $split-arr: append($split-arr, $item);
+        // remove item and separator from string
+        $string: str-slice($string, $index + 1);
+        // find new index of separator
+        $index: str-index($string, $separator);
+    }
+
+    // add the remaining string to list (the last item)
+    $split-arr: append($split-arr, $string);
+
+    @return $split-arr;
+}
+
+@function theme($key) {
+    $keys: str-split($key, '.');
+    $map: $theme;
+
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+
+    @return $map;
+}
+
+@function map-set($map, $keys, $value) {
+    $maps: ($map, );
+    $result: null;
+
+    // If the last key is a map already
+    // Warn the user we will be overriding it with $value
+    @if type-of(nth($keys, -1))==map {
+        @warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+    }
+
+    // If $keys is a single key
+    // Just merge and return
+    @if length($keys)==1 {
+        @return map-merge($map, ($keys: $value));
+    }
+
+    // Loop from the first to the second to last key from $keys
+    // Store the associated map to this key in the $maps list
+    // If the key doesn't exist, throw an error
+    @for $i from 1 through length($keys) - 1 {
+        $current-key: nth($keys, $i);
+        $current-map: nth($maps, -1);
+        $current-get: map-get($current-map, $current-key);
+
+        @if $current-get==null {
+            @warn "Key `#{$key}` doesn't exist at current level in map.";
+            @return false;
+        }
+
+        $maps: append($maps, $current-get);
+    }
+
+    // Loop from the last map to the first one
+    // Merge it with the previous one
+    @for $i from length($maps) through 1 {
+        $current-map: nth($maps, $i);
+        $current-key: nth($keys, $i);
+        $current-val: if($i==length($maps), $value, $result);
+        $result: map-merge($current-map, ($current-key: $current-val));
+    }
+
+    // Return result
+    @return $result;
+}
+
+@function get-max($map) {
+    $list: ();
+
+    // Loop through each item in the map
+    @each $map-key, $map-val in $map {
+        // Add the desired value to our list, from the sub-map
+        $list: append($list, $map-val, comma);
+    }
+
+    // Get the largest number from our list
+    @return max($list...);
+}
+
+@mixin border-radius($value, $property: 'border-radius') {
+    @if $rounded {
+        #{$property}: #{$value};
+    }
+}

@@ -1,0 +1,162 @@
+@use 'sass:math';
+
+/*! purgecss start ignore */
+$normalize-font: math.div($baseFontSize, 14) * 10;
+
+:root {
+    --duration: .15s ease;
+    --long-duration: .2s ease;
+
+    --animation-duration: .4s ease;
+    --transition: color var(--duration),
+        background var(--duration),
+        box-shadow var(--duration),
+        transform var(--duration),
+        opacity var(--duration),
+        border-color var(--duration);
+
+    --long-transition: all var(--long-duration);
+
+    --popup-background: rgba(0, 0, 0, .5);
+    --popup-backdrop: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    width: 100vw;
+    max-width: 100vw;
+    // overflow: hidden auto;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1;
+    padding: 0;
+    color: var(--color-font-500);
+    background: var(--color-bg);
+    @include transition('background', 'color');
+
+    font: {
+        family: map-deep-get($font, 'family', 'sans');
+        weight: 300;
+        size: 100%;
+    }
+
+    -webkit-font-smoothing: antialiased;
+
+    // padding-top: rem(51);
+
+    // &.fullpage {
+    //     padding-top: 0;
+    // }
+
+    // @include media-breakpoint-up('lg') {
+    //     padding-top: rem(55);
+    // }
+}
+
+
+// a[href^="http"]:empty::before {
+//     content: attr(href);
+// }
+
+a {
+    text-decoration: none;
+    outline: none !important;
+}
+
+img,
+object,
+embed {
+    max-width: 100%;
+    height: auto;
+}
+
+ul {
+    margin: 0;
+}
+
+::after,
+::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@each $header, $size in (
+    1: var(--text-2xl),
+    2: var(--text-xl),
+    3: var(--text-base),
+    4: var(--text-sm),
+    5: var(--text-sm),
+    6: var(--text-sm),
+) {
+    h#{$header}, .h#{$header} {
+        font-size: #{$size};
+    }
+}
+
+.icon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-flex;
+    align-items: center;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+
+    &:before {
+        display: block;
+    }
+}
+
+b,
+strong {
+    font-weight: 700;
+}
+
+blockquote {
+    display: block;
+    padding: 0 0 0 rem(12) !important;
+    border-left: rem(3) solid var(--color-primary-500);
+}
+
+u {
+    text-decoration: underline;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+input {
+    -webkit-appearance: none;
+}
+
+.chartjs-render-monitor {
+    margin-bottom: rem(30);
+}
+
+.w-full {
+    width: 100%;
+}
+/*! purgecss end ignore */

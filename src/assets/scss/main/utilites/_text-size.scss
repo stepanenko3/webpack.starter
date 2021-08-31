@@ -1,0 +1,37 @@
+:root {
+    @each $name, $value in map-get($font, 'size') {
+        --text-#{$name}: #{$value};
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        /*! purgecss start ignore */
+        @each $name, $value in map-get($font, 'size') {
+            .#{$infix}text-#{$name} {
+                font-size: #{$value} !important;
+            }
+        }
+
+        @each $name, $leading in map-get($font, 'leading') {
+            .#{$infix}leading-#{str-replace($name, ',', '\\.')} {
+                line-height: #{$leading};
+            }
+        }
+
+        @each $name, $weight in map-get($font, 'weight') {
+            .#{$infix}text-#{"" + $name} {
+                font-weight: #{$weight};
+            }
+        }
+
+        @each $name, $spacing in $letterSpacing {
+            .#{$infix}tracking-#{$name} {
+                letter-spacing:  #{$spacing};
+            }
+        }
+        /*! purgecss end ignore */
+    }
+}

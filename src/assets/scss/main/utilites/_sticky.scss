@@ -1,0 +1,33 @@
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .#{$infix}sticky {
+            position: sticky;
+            top: #{var-get($sticky-breakpoints, $breakpoint, 0)};
+
+            @each $key, $offset in $sticky-spacing {
+                @if get-unit($offset) == 'rem' {
+                    &-#{get-space-key($key)} {
+                        position: sticky;
+                        top: #{var-get($sticky-breakpoints, $breakpoint, 0) + $offset};
+                    }
+                }
+            }
+        }
+
+        .#{$infix}sticky-b {
+            position: sticky;
+            bottom: #{var-get($sticky-breakpoints, $breakpoint, 0)};
+
+            @each $key, $offset in $sticky-spacing {
+                @if get-unit($offset) == 'rem' {
+                    &-#{get-space-key($key)} {
+                        position: sticky;
+                        bottom: #{var-get($sticky-breakpoints, $breakpoint, 0) + $offset};
+                    }
+                }
+            }
+        }
+    }
+}

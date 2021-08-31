@@ -1,0 +1,438 @@
+@use 'sass:math';
+
+$enableRem: true;
+$baseFontSize: 16px;
+$counterFontFamily: sans-serif;
+$rounded: true;
+
+$defaultPalettes: (
+    'bg': #fff,
+    'white': #fff,
+);
+
+$palettes: (
+    'primary': #c92929,
+    'font': #353535,
+    'elements': #7c7c7c,
+
+    'danger': #ff4c25,
+    'warning': #ff9f0a,
+    'success': #1f9d55,
+    // 'blue': #3B82F6,
+    // 'indigo': #6366F1,
+    // 'purple': #8B5CF6,
+    // 'pink': #EC4899,
+);
+
+$defaultPalettes-dark: (
+    'bg': #161616,
+    'white': #2f2f2f,
+);
+
+$palettes-dark: (
+    'font': #d4d4d4,
+);
+
+$baseTransition: .2s ease-out;
+$baseShadow: 0 0 #{rem(16)} rgba(145, 145, 145, 0.4);
+$whiteShadow: 0 0 #{rem(16)} rgba(255, 255, 255, 0.4);
+
+$loader: '';
+$loaderMask: url($loader) no-repeat center / contain;
+
+$z-layers: (
+    'dropdown': 200,
+
+    'version': 99999,
+    'filter-wrapper': 99,
+
+    'header': 199,
+    'header--stuck': 201,
+    'header-city': 201,
+    'catalog': 3,
+
+    'product-fixed': 197,
+    'modal': 201,
+    'mob-menu': 201,
+
+    'scroll-top': 99,
+    'ib0712--col': 100,
+    'page-header': 97,
+    'search': 2,
+    'autocomplete': 198,
+
+    'cookie-confirm': 10000,
+    'action-message': 100,
+    'tinyfade': 10001,
+);
+
+$font: (
+    family: (
+        flow: (
+            'Flow',
+        ),
+        sans: (
+            'PT Root UI',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            'sans-serif',
+
+            // 'ui-sans-serif',
+            // 'system-ui',
+            // '-apple-system',
+            // 'BlinkMacSystemFont',
+            // '"Segoe UI"',
+            // 'Roboto',
+            // '"Helvetica Neue"',
+            // 'Arial',
+            // '"Noto Sans"',
+            // 'sans-serif',
+            // '"Apple Color Emoji"',
+            // '"Segoe UI Emoji"',
+            // '"Segoe UI Symbol"',
+            // '"Noto Color Emoji"',
+        ),
+        serif: (
+            'ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'
+        ),
+        mono: (
+            'ui-monospace',
+            'SFMono-Regular',
+            'Menlo',
+            'Monaco',
+            'Consolas',
+            '"Liberation Mono"',
+            '"Courier New"',
+            'monospace',
+        )
+    ),
+    size: (
+        xxs: 0.5rem,
+        xs: 0.75rem,
+        sm: 0.875rem,
+        base: 1rem,
+        lg: 1.125rem,
+        xl: 1.25rem,
+        2xl: 1.4375rem,
+        3xl: 1.875rem,
+        4xl: 2.25rem,
+        5xl: 3rem,
+        6xl: 3.75rem,
+        7xl: 4.5rem,
+        8xl: 6rem,
+        9xl: 8rem,
+    ),
+    weight: (
+        thin: 100,
+        extralight: 200,
+        light: 300,
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        black: 900,
+    ),
+    leading: (
+        none: 1,
+        '1,1': 1.1,
+        '1,15': 1.15,
+        '1,2': 1.2,
+        tight: 1.25,
+        snug: 1.375,
+        normal: 1.5,
+        relaxed: 1.625,
+        loose: 2,
+        3: 0.75rem,
+        4: 1rem,
+        5: 1.25rem,
+        6: 1.5rem,
+        7: 1.75rem,
+        8: 2rem,
+        9: 2.25rem,
+        10: 2.5rem,
+    ),
+);
+
+$boxShadow: (
+    sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+    xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+    '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+    inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+    none: 'none',
+);
+
+$cursor: (
+    auto: 'auto',
+    default: 'default',
+    pointer: 'pointer',
+    wait: 'wait',
+    text: 'text',
+    move: 'move',
+    help: 'help',
+    'not-allowed': 'not-allowed',
+);
+
+$display: (
+    'block',
+    'inline-block',
+    'inline',
+    'flex',
+    'inline-flex',
+    // 'table',
+    // 'inline-table',
+    // 'table-caption',
+    // 'table-cell',
+    // 'table-column',
+    // 'table-column-group',
+    // 'table-footer-group',
+    // 'table-header-group',
+    // 'table-row-group',
+    // 'table-row',
+    // 'flow-root',
+    'grid',
+    'inline-grid',
+    // 'contents',
+    // 'list-item',
+);
+
+$userSelect: (
+    'none', 'text', 'all', 'auto',
+);
+
+$spacing: (
+    'px': 1px,
+    '0': 0px,
+    '0,5': 0.125rem,
+    '1': 0.25rem,
+    '1,5': 0.375rem,
+    '2': 0.5rem,
+    '2,5': 0.625rem,
+    '3': 0.75rem,
+    '3,5': 0.875rem,
+    '4': 1rem,
+    '5': 1.25rem,
+    '6': 1.5rem,
+    '7': 1.75rem,
+    '8': 2rem,
+    '9': 2.25rem,
+    '10': 2.5rem,
+    '11': 2.75rem,
+    '12': 3rem,
+    '14': 3.5rem,
+    '16': 4rem,
+    '20': 5rem,
+    '24': 6rem,
+    '28': 7rem,
+    '32': 8rem,
+    '36': 9rem,
+    '40': 10rem,
+    '44': 11rem,
+    '48': 12rem,
+    '52': 13rem,
+    '56': 14rem,
+    '60': 15rem,
+    '64': 16rem,
+    '72': 18rem,
+    '80': 20rem,
+    '96': 24rem,
+);
+
+$sticky-breakpoints: (
+    xs: 3.125rem,
+    sm: 3.125rem,
+    md: 3.4375rem,
+    lg: 3.4375rem,
+    xl: 3.4375rem,
+);
+
+$sticky-spacing: $spacing;
+
+$lineClamps: (1,2,3,4,5,6);
+
+$roundes: (
+    none: 0px,
+    sm: 0.125rem,
+    md: 0.375rem,
+    lg: 0.5rem,
+    xl: 0.75rem,
+    2xl: 1rem,
+    3xl: 1.5rem,
+    max: 50%,
+    full: 9999px,
+);
+
+$letterSpacing: (
+    tighter: -0.05em,
+    tight: -0.025em,
+    normal: 0em,
+    wide: 0.025em,
+    wider: 0.05em,
+    widest: 0.1em,
+);
+
+$opacity: (
+    0: 0,
+    5: 0.05,
+    10: 0.1,
+    20: 0.2,
+    25: 0.25,
+    30: 0.3,
+    40: 0.4,
+    50: 0.5,
+    60: 0.6,
+    70: 0.7,
+    75: 0.75,
+    80: 0.8,
+    90: 0.9,
+    95: 0.95,
+    100: 1,
+);
+
+$textOpacity: $opacity;
+$bgOpacity: $opacity;
+$ringOpacity: $opacity;
+
+$rings: (
+    1: 1px,
+    2: 2px,
+    3: 3px,
+    4: 4px,
+    6: 6px,
+    8: 8px,
+);
+
+$transition: (
+    delay: (
+        75: 75ms,
+        100: 100ms,
+        150: 150ms,
+        200: 200ms,
+        300: 300ms,
+        500: 500ms,
+        700: 700ms,
+        1000: 1000ms,
+    ),
+    duration: (
+        DEFAULT: 150ms,
+        75: 75ms,
+        100: 100ms,
+        150: 150ms,
+        200: 200ms,
+        300: 300ms,
+        500: 500ms,
+        700: 700ms,
+        1000: 1000ms,
+    ),
+    property: (
+        none: 'none',
+        all: 'all',
+        DEFAULT: 'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform',
+        colors: 'background-color, border-color, color, fill, stroke',
+        opacity: 'opacity',
+        shadow: 'box-shadow',
+        transform: 'transform',
+    ),
+    timingFunction: (
+        DEFAULT: cubic-bezier(0.4, 0, 0.2, 1),
+        linear: 'linear',
+        in: cubic-bezier(0.4, 0, 1, 1),
+        out: cubic-bezier(0, 0, 0.2, 1),
+        'in-out': cubic-bezier(0.4, 0, 0.2, 1),
+    ),
+);
+
+$animation: (
+    none: none,
+    spin: spin 1s linear infinite,
+    ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite,
+    pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite,
+    pulseFast: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite,
+    bounce: bounce 1s infinite,
+);
+
+$keyframes: (
+    spin : (
+        to: (
+            transform: 'rotate(360deg)',
+        ),
+    ),
+    ping: (
+        '75%, 100%': (
+            transform: 'scale(2)',
+            opacity: 0,
+        ),
+    ),
+    pulse: (
+        '50%': (
+            opacity: .5
+        ),
+    ),
+    bounse: (
+        '0%, 100%': (
+            transform: 'translateY(-25%)',
+            animationTimingFunction: 'cubic-bezier(0.8,0,1,1)',
+        ),
+        '50%': (
+            transform: 'none',
+            animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+        ),
+    )
+);
+
+/**
+* Grid system
+*/
+
+$enable-grid-classes: true;
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+) !default;
+@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+@include _assert-starts-at-zero($grid-breakpoints);
+
+$container-max-widths: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1360px,
+) !default;
+@include _assert-ascending($container-max-widths, "$container-max-widths");
+
+$grid-columns: 12 !default;
+$grid-gutter-width: 30px !default;
+
+$grid-auto: (
+    auto: 'auto',
+    min: 'min-content',
+    max: 'max-content',
+    fr: 'minmax(0, 1fr)',
+);
+
+$theme: (
+    baseFontSize: $baseFontSize,
+    defaultPalettes: $defaultPalettes,
+    palettes: $palettes,
+    loader: $loader,
+    loaderMask: $loaderMask,
+    font: $font,
+    boxShadow: $boxShadow,
+    cursor: $cursor,
+    display: $display,
+    userSelect: $userSelect,
+    spacing: $spacing,
+    roundes: $roundes,
+    letterSpacing: $letterSpacing,
+    opacity: $opacity,
+    textOpacity: $textOpacity,
+    bgOpacity: $bgOpacity,
+    transition: $transition,
+    animation: $animation,
+);

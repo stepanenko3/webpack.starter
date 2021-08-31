@@ -1,0 +1,17 @@
+@mixin getIcon($icon) {
+    $slash: str-index($icon, "/");
+    $group: null;
+
+    @if ($slash) {
+        $group: str-slice($icon, 0, $slash - 1);
+    }
+
+    @else {
+        $group: nth(map-keys($__iconfont__data), 1);
+    }
+
+    font-family: $group;
+    font-style: normal;
+    font-weight: 400;
+    content: iconfont-item($icon);
+}
